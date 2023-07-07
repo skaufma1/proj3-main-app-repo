@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Deploy to Production</title>
+    <style>
+        body {
+		    background-image: url("/static/background_old_paper.jpg");
+            background-size: cover;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding: 20px;
+			overflow: hidden;
+		}
+		button {
+  			background-color: #050E81;
+  			margin-left: 40px;
+  			border: none;
+    		color: white;
+    		padding: 5px 20px;
+    		text-align: center;
+    		text-decoration: none;
+    		display: flex
+    		font-size: 14px;
+    		margin: 4px 2px;
+    		cursor: pointer;
+    		border-radius: 5px;
+    		margin-left: 60px;
+  		}
+	</style>
+</head>
+<body>
+<form id="deploy-to-prod" method="POST" action="{{ url_for('deploy_to_prod') }}">
+    <h1>Deploy to Production:</h1>
+
+    <div class="text-container-deploy-to-prod" style="width: 600px; height: 50px;">
+        You are about to launch the deployment of the <span style="color: red;">Test Flask application</span> to the <span style="color: red;">Production environment</span>.
+    </div>
+
+    <div class="text-container-simple" style="width: 600px; height: 50px;">
+        Choose the required destination:
+    </div>
+
+    <br><br><br><br>
+    <div class="radio-buttons">
+        <input type="radio" name="server" value="Prod1">
+        <label for="prod1">Production 1</label><br>
+
+        <input type="radio" name="server" value="Prod2">
+        <label for="prod2">Production 2</label><br>
+
+        <input type="radio" name="server" value="Both">
+        <label for="both">Both</label><br>
+    </div>
+
+    <br><br><br><br><br><br>
+    <input type="submit" class="deploy-to-prod-popup-button" value="Deploy">
+    <button class="button" onclick="window.close()">Close</button>
+
+    <br><br>
+    <div class="bottom-sentence">Powered by Shmuel Kaufmann, SQLabs DevOps course, May 2023</div>
+</form>
+</body>
+</html>

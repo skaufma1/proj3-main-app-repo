@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Image Full Cycle</title>
+    <style>
+        body {
+		    background-image: url("/static/background_old_paper.jpg");
+            background-size: cover;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding: 20px;
+			overflow: hidden;
+		}
+	    .button-p {
+            background-color: #050E81;
+            border: none;
+            color: white;
+            padding: 5px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: flex
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 60px;
+            position: absolute;
+            top: 350px; /* Adjust the vertical position in pixels */
+            left: 120px; /* Adjust the horizontal position in pixels */
+        }
+  		.image-container {
+            position: relative;
+            display: inline-block;
+            left: 620px;
+            top: 155px;
+        }
+        .image-container img {
+            width: 35%;
+            height: auto;
+            display: block;
+        }
+	</style>
+</head>
+<body>
+<form id="deploy-github-to-prod" method="POST" action="{{ url_for('from_test_to_prod_cycle_popup') }}">
+    <h1>Deploy GitHub to Production:</h1>
+
+    <div class="text-container-deploy-to-prod" style="width: 450px; height: 210px;">
+        You are about to launch the deployment of a <span style="color: red;">Flask application</span> to the <span style="color: red;">Production environment</span>.
+        Few steps in the process:
+        <ul>
+            <li>Pulling the code from <span style="color: red;">GitHub</span></li>
+            <li>Building an Image</li>
+            <li>Image deployment to <span style="color: red;">Slave machine</span> for Seleniumn tests</li>
+            <li>If all tests are successful: Loading Image to <span style="color: red;">Docker Hub</span></li>
+            <li>Auto-Deployment of a running Web-Application to the <span style="color: red;">Production</span> machines</li>
+        </ul>
+    </div>
+
+    <div class="image-container">
+        <img src="static/flow_github_test_dockerhub_prod.jpg" alt="Image">
+    </div>
+
+    <input type="submit" class="from-test-to-prod-popup-button" value="Deploy">
+    <button class="button-p" onclick="window.close()">Close</button>
+
+    <br>
+    <div class="bottom-sentence">Powered by Shmuel Kaufmann, SQLabs DevOps course, May 2023</div>
+</form>
+</body>
+</html>

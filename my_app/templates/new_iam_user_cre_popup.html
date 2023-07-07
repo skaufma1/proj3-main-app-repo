@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>New IAM User Creation</title>
+    <style>
+        body {
+		    background-image: url("/static/background_old_paper.jpg");
+            background-size: cover;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding: 20px;
+			overflow: hidden;
+		}
+		field {
+            position: absolute;
+            top: 300px;
+            left: 200px;
+        }
+        button {
+  			background-color: #050E81;
+  			margin-left: 40px;
+  			border: none;
+    		color: white;
+    		padding: 5px 20px;
+    		text-align: center;
+    		text-decoration: none;
+    		display: flex
+    		font-size: 14px;
+    		margin: 4px 2px;
+    		cursor: pointer;
+    		border-radius: 5px;
+    		margin-left: 60px;
+  		}
+  		bottom-sentence {
+            position: fixed;
+            bottom: 40;
+            left: 32%;
+            font-size: 24px;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <h1>New IAM User Creation:</h1>
+
+    <form id="iam-user-cre-form" method="POST" action="/new_iam_user_cre_popup">
+    <input type="hidden" id="base-url" value="{{ request.host_url }}">
+    <br>
+    <div class="field">
+      <label for="name">Enter new Username:</label>
+      <input type="text" id="username" name="username" required placeholder="you can use your Email address" style="width: 300px;">
+    </div>
+    <br>
+    <input type="submit" class="ec2-instances-popup-button" value="Create User">
+    <button class="button" onclick="window.close()">Close</button>
+    <br>
+
+    <p style="color: red;">{{ message }}</p>
+
+    {% if 'IAM user created successfully' in message %}
+        <p>Initial password: Password@1234</p>
+        <p>Login page is: <a href="https://259213005524.signin.aws.amazon.com/console" target="_blank">https://259213005524.signin.aws.amazon.com/console</a></p>
+    {% endif %}
+    <br>
+    <div class="bottom-sentence">Powered by Shmuel Kaufmann, SQLabs DevOps course, May 2023</div>
+    </form>
+</body>
+</html>

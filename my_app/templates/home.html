@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta http-equiv="refresh" content="10">
+    <meta charset="UTF-8">
+    <title>Your Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        html, body {
+        resize: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>This is your Dashboard</h2>
+    <h1 class="h1-home">What would You Like to Do ?</h1>
+    <h3 class="header-h3-1">EC2 Instances</h3>
+    <form action="/" method="POST">
+    <div class="piechart-container">
+          <canvas id="pieChart" width="150" height="150"></canvas>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                <span class="count-label1">Running:</span>
+                <span class="count-value">{{ running_count }}</span>
+                <span class="count-label2">Stopped:</span>
+                <span class="count-value">{{ stopped_count }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <button class="ec2-instances-button" onclick="window.open('/ec2_instances_popup', 'popup1', 'width=800,height=450')">Take Control</button>
+    <script>
+        // Get the instances data from Flask
+        const instances = JSON.parse('{{ instances|tojson }}');
+
+        // Filter the instances by state
+        const stopped = instances.filter(i => i.Instances[0].State.Name === 'stopped');
+        const running = instances.filter(i => i.Instances[0].State.Name === 'running');
+
+        // Create the data for the pie chart
+        const data = {
+            labels: ['Stopped', 'Running'],
+            datasets: [{
+                data: [stopped.length, running.length],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+            borderWidth: 1
+            }]
+        };
+
+        // Create the pie chart
+        const pieChart = new Chart('pieChart', {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: false,
+                maintainAspectRatio: true,
+                aspectRatio: 1,
+                scales: {
+                    yAxes: [{
+                        display: false
+                    }],
+                    xAxes: [{
+                        display: false
+                    }]
+                }
+            }
+        });
+    </script>
+    <div class="vertical-line"></div>
+
+    <h3 class="header-h3-2">New EC2 Instance</h3>
+    <div class="image-container">
+        <img src="static/amazon-ec2-image.jpg" alt="Image Description">
+    </div>
+    <button class="ec2-create-button" onclick="window.open('/ec2_create_popup', 'popup2', 'width=800,height=450')">Create New</button>
+
+    <div class="vertical-line-2"></div>
+
+    <h3 class="header-h3-3">Deploy to Production</h3>
+    <div class="image-container-2">
+        <img src="static/flow_docker_hub_to_prod.jpg" alt="Image Description">
+    </div>
+    <button class="deploy-to-prod-button" onclick="window.open('/deploy_to_prod_popup', 'popup3', 'width=800,height=450')">Deploy</button>
+
+    <div class="vertical-line-3"></div>
+
+    <h3 class="header-h3-4">Image Complete Cycle</h3>
+    <div class="image-container-3">
+        <img src="static/flow_github_test_dockerhub_prod.jpg" alt="Image Description">
+    </div>
+    <button class="image-complete-cycle-button" onclick="window.open('/from_test_to_prod_cycle_popup', 'popup4', 'width=800,height=450')">Launch Cycle</button>
+
+
+    <button class="new-iam-user-button" style="font-size: 18px;" onclick="window.open('/new_iam_user_cre_popup', 'popup5', 'width=800,height=450')">Need a new IAM User ? Click Here</button>
+
+    <br><br><br><br><br><br><br>
+    <div class="bottom-sentence">Powered by Shmuel Kaufmann, SQLabs DevOps course, May 2023</div>
+</form>
+</body>
+</html>

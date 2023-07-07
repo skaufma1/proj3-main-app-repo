@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta http-equiv="refresh" content="10">
+    <meta charset="UTF-8">
+    <title>EC2 Instances</title>
+    <style>
+        body {
+		    background-image: url("/static/background_old_paper.jpg");
+            background-size: cover;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			line-height: 1.5em;
+			padding: 20px;
+			overflow: hidden;
+		}
+		button {
+  			background-color: #050E81;
+  			margin-left: 40px;
+  			border: none;
+    		color: white;
+    		padding: 5px 20px;
+    		text-align: center;
+    		text-decoration: none;
+    		display: flex
+    		font-size: 14px;
+    		margin: 4px 2px;
+    		cursor: pointer;
+    		border-radius: 5px;
+    		margin-left: 60px;
+  		}
+<!--  		scrollable {-->
+<!--			height: 10px;-->
+<!--			overflow-y: scroll;-->
+<!--		}-->
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			background-color: white;
+		}
+		th, td {
+			padding: 1px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+		}
+		thead th {
+    		background-color: #f2f2f2;
+    		position: sticky;
+    		top: 0;
+		}
+    </style>
+</head>
+<body>
+    <h1>EC2 Instances:</h1>
+    <form action="/ec2_instances_popup" method="POST">
+    <div class="table-scrollable">
+    <table>
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>State</th>
+                <th>Type</th>
+                <th>Public IP</th>
+                <th>Private IP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in instances %}
+                {% for instance in reservation['Instances'] %}
+                    <tr class="{{ instance['State']['Name'].lower() }}">
+                        <td><input type="checkbox" name="instance_ids" value="{{ instance['InstanceId'] }}" {{ 'disabled' if instance['State']['Name'] == 'terminated' or instance['State']['Name'] == 'shutting-down' or instance['State']['Name'] == 'pending' or instance['State']['Name'] == 'stopping' else '' }}></td>
+                        <td>
+                            {% for tag in instance['Tags'] %}
+                                {% if tag['Key'] == 'Name' %}
+                                    {{ tag['Value'] }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ instance['InstanceId'] }}</td>
+                        <td>{{ instance['State']['Name'] }}</td>
+                        <td>{{ instance['InstanceType'] }}</td>
+                        <td>{{ instance.get('PublicIpAddress', 'None') }}</td>
+                        <td>{{ instance.get('PrivateIpAddress', 'None') }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                <span class="count-label1-for-popup">Running:</span>
+                <span class="count-value">{{ running_count }}</span>
+                <span class="count-label2">Stopped:</span>
+                <span class="count-value">{{ stopped_count }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="ec2-instances-popup-button" name="action" value="stop">Stop Instances</button>
+    <button type="submit" class="ec2-instances-popup-button" name="action" value="start">Start Instances</button>
+    <button type="submit" class="ec2-instances-popup-button" name="action" value="terminate" disabled>Terminate Instances</button>
+
+    <button class="button" onclick="window.close()">Close</button>
+    <br><br>
+    <div class="bottom-sentence">Powered by Shmuel Kaufmann, SQLabs DevOps course, May 2023</div>
+    </form>
+</body>
+</html>
