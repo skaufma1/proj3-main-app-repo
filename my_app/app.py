@@ -115,7 +115,7 @@ def deploy_to_prod():
 
     # Handle form submission
     if request.method == 'POST':
-        server = jenkins.Jenkins('http://44.207.81.36:8080/', username='skaufma', password='Aa123456')
+        server = jenkins.Jenkins('http://3.233.181.117:8080/', username='skaufma', password='Aa123456')
 
         job_name = 'Proj3_TestFlask_Deploy2Prod'
         selected_server = request.form['server']
@@ -129,7 +129,7 @@ def from_test_to_prod_cycle_popup():
 
     # Handle form submission
     if request.method == 'POST':
-        server = jenkins.Jenkins('http://44.207.81.36:8080/', username='skaufma', password='Aa123456')
+        server = jenkins.Jenkins('http://3.233.181.117:8080/', username='skaufma', password='Aa123456')
 
         job_name = 'Proj3_Flask_Main'
         server.build_job(job_name)

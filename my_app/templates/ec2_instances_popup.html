@@ -72,6 +72,7 @@
             {% for reservation in instances %}
                 {% for instance in reservation['Instances'] %}
                     <tr class="{{ instance['State']['Name'].lower() }}">
+
                         <td><input type="checkbox" name="instance_ids" value="{{ instance['InstanceId'] }}" {{ 'disabled' if instance['State']['Name'] == 'terminated' or instance['State']['Name'] == 'shutting-down' or instance['State']['Name'] == 'pending' or instance['State']['Name'] == 'stopping' else '' }}></td>
                         <td>
                             {% for tag in instance['Tags'] %}
